@@ -1,0 +1,22 @@
+[
+  { "model": "seller.seller", "pk": 1,
+    "fields": { "name": "Capital Estates", "kind": "agency",
+      "bio": "Premium Icelandic real‑estate agency since 2002",
+      "address_street": "Bankastræti 1", "address_city": "Reykjavík", "address_postal": "101",
+      "logo": "", "cover": "" }},
+
+  { "model": "seller.seller", "pk": 2,
+    "fields": { "name": "Anna Jónsdóttir", "kind": "individual", "bio": "", "logo": "", "cover": "" }},
+
+  { "model": "property.property", "pk": 1,
+    "fields": { "seller": 1, "street": "Laugavegur 55", "city": "Reykjavík", "postal": "101",
+      "description": "Renovated townhouse with harbour views.",
+      "property_type": "townhouse", "listing_price": "147900000.00",
+      "rooms": 7, "bedrooms": 4, "bathrooms": 2, "square_meters": 210 }},
+
+  { "model": "property.property", "pk": 2,
+    "fields": { "seller": 2, "street": "Skólavörðustígur 12", "city": "Reykjavík", "postal": "101",
+      "description": "Charming 2‑bed apartment under Hallgrímskirkja.",
+      "property_type": "apartment", "listing_price": "62900000.00",
+      "rooms": 4, "bedrooms": 2, "bathrooms": 1, "square_meters": 83 }}
+]

@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+{% load humanize %}         {# adds intcomma & naturaltime filters #}
+
+{% block title %}{{ object.street }} – Castle Apartments{% endblock %}
+
+{% block content %}
+<h1>{{ object.street }}, {{ object.city }}</h1>
+
+{% if object.is_sold %}
+  <span class="badge bg-danger">Sold</span>
+{% endif %}
+
+<!-- image gallery -->
+{% if object.images.exists %}
+  <div id="gallery" class="row gx-2 gy-2 mb-4">
+    {% for img in object.images.all %}
+      <div class="col-6 col-md-4">
+        <img src="{{ img.image.url }}" class="img-fluid rounded" alt="">
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="row">
+  <!-- left column: property facts -->
+  <div class="col-md-8">
+    <h4 class="mb-3">Details</h4>
+    <dl class="row">
+      <dt class="col-4">Type</dt>
+      <dd class="col-8">{{ object.get_property_type_display }}</dd>
+
+      <dt class="col-4">Listing price</dt>
+      <dd class="col-8">€{{ object.listing_price|intcomma }}</dd>
+
+      <dt class="col-4">Listed on</dt>
+      <dd class="col-8">{{ object.listing_date }}</dd>
+
+      <dt class="col-4">Rooms</dt>
+      <dd class="col-8">{{ object.rooms }}</dd>
+
+      <dt class="col-4">Bedrooms</dt>
+      <dd class="col-8">{{ object.bedrooms }}</dd>
+
+      <dt class="col-4">Bathrooms</dt>
+      <dd class="col-8">{{ object.bathrooms }}</dd>
+
+      <dt class="col-4">Floor area</dt>
+      <dd class="col-8">{{ object.square_meters }} m²</dd>
+    </dl>
+
+    <h4 class="mt-4">Description</h4>
+    <p>{{ object.description }}</p>
+  </div>
+
+  <!-- right column: seller card -->
+  <div class="col-md-4">
+    <div class="card mb-4">
+      {% if object.seller.logo %}
+        <img src="{{ object.seller.logo.url }}" class="card-img-top" alt="">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ object.seller.name }}</h5>
+        <p class="card-text">
+          {% if object.seller.kind == "agency" %}
+            <span class="badge bg-primary">Real‑estate agency</span><br>
+            {{ object.seller.address_street }}<br>
+            {{ object.seller.address_postal }} {{ object.seller.address_city }}
+          {% else %}
+            <span class="badge bg-secondary">Individual seller</span>
+          {% endif %}
+        </p>
+        <a href="#" class="btn btn-outline-secondary disabled">View profile (TBD)</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- purchase offer button placeholder -->
+{% if not object.is_sold %}
+  <div class="text-center my-4">
+    <a href="#" class="btn btn-lg btn-success disabled">Submit purchase offer (coming soon)</a>
+  </div>
+{% endif %}
+{% endblock %}
