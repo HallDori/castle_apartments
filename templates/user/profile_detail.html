@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>My profile</h1>
+
+{% if user_obj.profile_image %}
+  <img src="{{ user_obj.profile_image.url }}" class="img-thumbnail mb-3" style="max-width:180px;" alt="avatar">
+{% endif %}
+
+<p><strong>Name:</strong> {{ user_obj.get_full_name|default:user_obj.username }}</p>
+
+<a href="{% url 'user:profile_edit' %}" class="btn btn-primary">Edit profile</a>
+{% endblock %}
