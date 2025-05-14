@@ -2,6 +2,67 @@
 {% block content %}
 <h1>Property catalogue</h1>
 
+<form method="get" class="row row-cols-lg-auto g-3 mb-4">
+  <!-- postal code(s) -->
+  <div class="col">
+    <label for="id_postal" class="form-label fw-bold">Postal code</label>
+    <input name="postal" id="id_postal" class="form-control"
+           value="{{ filter_params.postal|default:'' }}"
+           placeholder="101,220,170">
+  </div>
+
+  <!-- price range -->
+  <div class="col">
+    <label for="id_min" class="form-label fw-bold">€ Min</label>
+    <input type="number" step="0.01" name="min_price" id="id_min"
+           class="form-control" value="{{ filter_params.min_price }}">
+  </div>
+  <div class="col">
+    <label for="id_max" class="form-label fw-bold">€ Max</label>
+    <input type="number" step="0.01" name="max_price" id="id_max"
+           class="form-control" value="{{ filter_params.max_price }}">
+  </div>
+
+  <!-- property types (multi-select check-boxes) -->
+  <div class="col">
+    <span class="fw-bold d-block">Type</span>
+    {% for code,label in properties.model.TYPE_CHOICES %}
+      <div class="form-check">
+        <input class="form-check-input"
+               type="checkbox" id="id_type{{ forloop.counter }}"
+               name="type" value="{{ code }}"
+               {% if code in selected_types %}checked{% endif %}>
+        <label class="form-check-label" for="id_type{{ forloop.counter }}">{{ label }}</label>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- text search -->
+  <div class="col">
+    <label for="id_q" class="form-label fw-bold">Street contains</label>
+    <input name="q" id="id_q" class="form-control"
+           value="{{ filter_params.q }}">
+  </div>
+
+  <!-- ordering -->
+  <div class="col">
+    <label for="id_order" class="form-label fw-bold">Order by</label>
+    <select name="order" id="id_order" class="form-select">
+      <option value="">Newest</option>
+      <option value="price"  {% if filter_params.order == 'price'  %}selected{% endif %}>Price ↑</option>
+      <option value="-price" {% if filter_params.order == '-price' %}selected{% endif %}>Price ↓</option>
+      <option value="name"   {% if filter_params.order == 'name'   %}selected{% endif %}>Street A-Z</option>
+      <option value="-name"  {% if filter_params.order == '-name'  %}selected{% endif %}>Street Z-A</option>
+    </select>
+  </div>
+
+  <!-- buttons -->
+  <div class="col align-self-end">
+    <button class="btn btn-primary">Filter</button>
+    <a href="{% url 'property:list' %}" class="btn btn-outline-secondary">Clear</a>
+  </div>
+</form>
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for obj in object_list %}
     <div class="col">
