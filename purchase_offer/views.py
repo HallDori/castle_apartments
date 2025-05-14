@@ -41,6 +41,4 @@ class PurchaseOfferListView(LoginRequiredMixin, ListView):
                 .select_related("property", "property__seller")
                 .filter(buyer=self.request.user)
                 .order_by("-created"))
-from django.shortcuts import render
 
-# Create your views here.

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'property',
     'purchase_offer',
     'finalisation',
+    'formtools',
 ]
 
 AUTH_USER_MODEL = "user.User"
