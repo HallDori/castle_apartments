@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Submit offer{% endblock %}
+{% block content %}
+<h1>Purchase offer for {{ view.property.street }}, {{ view.property.city }}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success">Submit offer</button>
+  <a href="{% url 'property:detail' view.property.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

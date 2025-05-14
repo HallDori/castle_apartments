@@ -28,8 +28,9 @@
                   Hi&nbsp;{{ user.get_short_name|default:user.username }}
                 </a>
               </li>
-
-              <!-- POST logout form (avoids HTTP 405) -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'purchase_offer:list' %}">My offers</a>
+                </li>
               <li class="nav-item">
                 <form action="{% url 'logout' %}" method="post" class="d-inline">
                   {% csrf_token %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}My purchase offers{% endblock %}
+{% block content %}
+<h1>My purchase offers</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Property</th><th>Submitted</th><th>Expires</th>
+      <th>Status</th><th>Seller</th><th class="text-end">Price (€)</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in offers %}
+      <tr>
+        <td><a href="{% url 'property:detail' o.property.pk %}">{{ o.property.street }}</a></td>
+        <td>{{ o.created|date:"Y‑m‑d" }}</td>
+        <td>{{ o.expiration }}</td>
+        <td>{{ o.get_status_display }}</td>
+        <td>{{ o.property.seller.name }}</td>
+        <td class="text-end">{{ o.price }}</td>
+        <td>
+          {% if o.status in "accepted contingent" %}
+            <a class="btn btn-sm btn-primary" href="#">Finalize</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="7">No offers yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
