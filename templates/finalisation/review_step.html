@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Step 3 / 3 – Review{% endblock %}
+{% block content %}
+<h1>Review &amp; confirm</h1>
+
+<table class="table">
+  {% for key, val in data.items %}
+    <tr>
+      <th>{{ key|capfirst|cut:"_"|title }}</th>      {# “_” → “ ” #}
+      <td>{{ val|default:"—" }}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<form method="post">
+  {% csrf_token %}{{ wizard.management_form }}
+  <button name="wizard_goto_step" value="{{ wizard.steps.prev }}"
+          class="btn btn-secondary">Back</button>
+  <button class="btn btn-success">Confirm</button>
+</form>
+{% endblock %}

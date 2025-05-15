@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block title %}Step 2 / 3 – Payment{% endblock %}
+{% block content %}
+<h1>Payment method</h1>
+
+<style>.pm-group{display:none}</style>   {# keep them hidden by default #}
+
+<form method="post">
+  {% csrf_token %}{{ wizard.management_form }}
+
+  {{ form.payment_method|as_crispy_field }}
+
+  <div id="cc"   class="pm-group">
+      {{ form.card_name|as_crispy_field }}
+      {{ form.card_number|as_crispy_field }}
+      {{ form.card_expiry|as_crispy_field }}
+      {{ form.card_cvc|as_crispy_field }}
+  </div>
+
+  <div id="bank" class="pm-group">
+      {{ form.bank_account|as_crispy_field }}
+  </div>
+
+  <div id="mort" class="pm-group">
+      {{ form.mortgage_provider|as_crispy_field }}
+  </div>
+
+  <button name="wizard_goto_step" value="{{ wizard.steps.prev }}"
+          class="btn btn-secondary">Back</button>
+  <button class="btn btn-primary">Continue</button>
+</form>
+
+<script>
+function hideAll() {
+  document.querySelectorAll('.pm-group')
+          .forEach(div => div.style.display = 'none');
+}
+
+function show(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'block';       //  ← forces it to be visible
+}
+
+function toggleGroups () {
+  const checked = document.querySelector('[name$="payment_method"]:checked');
+  hideAll();
+  if (!checked) return;                     // nothing selected yet
+
+  switch (checked.value) {
+    case 'credit_card':   show('cc');   break;
+    case 'bank_transfer': show('bank'); break;
+    case 'mortgage':      show('mort'); break;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  toggleGroups();                                    // initial state
+  document.querySelectorAll('[name$="payment_method"]')
+          .forEach(r => r.addEventListener('change', toggleGroups));
+});
+</script>
+{% endblock %}

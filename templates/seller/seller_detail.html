@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ object.name }} – Seller{% endblock %}
+{% block content %}
+<h1>{{ object.name }}</h1>
+{% if object.logo %}<img src="{{ object.logo.url }}" class="img-fluid mb-3">{% endif %}
+
+<p><strong>Type:</strong> {{ object.get_kind_display }}</p>
+{% if object.address_street %}
+  <p><strong>Address:</strong> {{ object.address_street }}, {{ object.address_city }} {{ object.address_postal }}</p>
+{% endif %}
+<p>{{ object.bio }}</p>
+
+<h2 class="mt-4">Properties for sale</h2>
+<ul>
+  {% for p in object.properties.all %}
+    <li>
+      <a href="{% url 'property:detail' p.pk %}">
+        {{ p.street }}, {{ p.city }} – €{{ p.listing_price }}
+      </a>
+      {% if p.is_sold %}<span class="badge bg-danger">Sold</span>{% endif %}
+    </li>
+  {% empty %}
+    <li>No active listings.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

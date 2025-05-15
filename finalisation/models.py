@@ -39,9 +39,13 @@ class Finalisation(models.Model):
     confirmed_at  = models.DateTimeField(null=True, blank=True)
 
     def confirm(self):
+        from django.utils import timezone
         self.confirmed = True
         self.confirmed_at = timezone.now()
-        self.save(update_fields=["confirmed", "confirmed_at"])
+        if self.pk:  # object already in DB → UPDATE
+            self.save(update_fields=["confirmed", "confirmed_at"])
+        else:  # new object → plain INSERT
+            self.save()
 
     def __str__(self):
         return f"Finalisation for {self.offer}"

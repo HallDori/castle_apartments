@@ -70,7 +70,10 @@
             <span class="badge bg-secondary">Individual seller</span>
           {% endif %}
         </p>
-        <a href="#" class="btn btn-outline-secondary disabled">View profile (TBD)</a>
+        <a href="{% url 'seller:detail' object.seller.pk %}"
+           class="btn btn-outline-secondary">
+          View seller profile
+        </a>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class Seller(models.Model):
     AGENCY     = "agency"
@@ -7,6 +8,13 @@ class Seller(models.Model):
         (AGENCY, "Real Estate Agency"),
         (INDIVIDUAL, "Individual"),
     ]
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="seller_profile",
+        null=True,  # allow old rows without a user for now
+        blank=True,
+    )
 
     name            = models.CharField(max_length=255)
     kind            = models.CharField(max_length=12, choices=TYPE_CHOICES)

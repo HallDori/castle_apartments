@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Incoming offers{% endblock %}
+{% block content %}
+<h1>Incoming offers</h1>
+<table class="table table-striped">
+  <tr><th>Property</th><th>Buyer</th><th>Price (€)</th><th>Status</th><th></th></tr>
+  {% for o in offers %}
+    <tr>
+      <td><a href="{% url 'property:detail' o.property.pk %}">{{ o.property.street }}</a></td>
+      <td>{{ o.buyer.username }}</td>
+      <td>{{ o.price }}</td>
+      <td>{{ o.get_status_display }}</td>
+      <td>
+        {% if o.status == "pending" %}
+          <form method="post" action="{% url 'purchase_offer:status_update' o.pk %}" class="d-inline">
+            {% csrf_token %}<input type="hidden" name="status" value="accepted">
+            <button class="btn btn-sm btn-success">Accept</button>
+          </form>
+          <form method="post" action="{% url 'purchase_offer:status_update' o.pk %}" class="d-inline">
+            {% csrf_token %}<input type="hidden" name="status" value="rejected">
+            <button class="btn btn-sm btn-danger">Reject</button>
+          </form>
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="5">No offers yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

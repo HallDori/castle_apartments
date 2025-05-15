@@ -21,7 +21,10 @@
         <td class="text-end">{{ o.price }}</td>
         <td>
           {% if o.status in "accepted contingent" %}
-            <a class="btn btn-sm btn-primary" href="#">Finalize</a>
+              <a class="btn btn-sm btn-primary"
+                 href="{% url 'finalisation:wizard' o.pk %}">
+                 Finalize
+              </a>
           {% endif %}
         </td>
       </tr>

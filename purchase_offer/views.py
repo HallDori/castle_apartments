@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView, UpdateView, CreateView
 from .forms import PurchaseOfferForm
 from .models import PurchaseOffer
 from property.models import Property      # import your Property model
@@ -42,3 +42,23 @@ class PurchaseOfferListView(LoginRequiredMixin, ListView):
                 .filter(buyer=self.request.user)
                 .order_by("-created"))
 
+class SellerOfferList(LoginRequiredMixin, ListView):
+    template_name = "purchase_offer/seller_list.html"
+    context_object_name = "offers"
+
+    def get_queryset(self):
+        return (PurchaseOffer.objects
+                .select_related("property", "buyer")
+                .filter(property__seller__user=self.request.user)
+                .order_by("-created"))
+
+class OfferStatusUpdate(LoginRequiredMixin, UpdateView):
+    model = PurchaseOffer
+    fields = ["status"]
+    http_method_names = ["post"]
+
+    def get_queryset(self):
+        return PurchaseOffer.objects.filter(property__seller__user=self.request.user)
+
+    def get_success_url(self):
+        return reverse_lazy("purchase_offer:seller_offers")

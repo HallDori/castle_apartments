@@ -28,6 +28,13 @@
                   Hi&nbsp;{{ user.get_short_name|default:user.username }}
                 </a>
               </li>
+                {% if user.seller_profile %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'purchase_offer:seller_offers' %}">
+                      Seller dashboard
+                    </a>
+                  </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'purchase_offer:list' %}">My offers</a>
                 </li>

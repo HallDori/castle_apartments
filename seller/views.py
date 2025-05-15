@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.views.generic import DetailView
+from .models import Seller
 
-# Create your views here.
+class SellerDetailView(DetailView):
+    model = Seller
+    template_name = "seller/seller_detail.html"
