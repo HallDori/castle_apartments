@@ -74,7 +74,10 @@
               {{ obj.street }}, {{ obj.city }}
             </a>
           </h5>
-          <p class="card-text">€{{ obj.listing_price }}</p>
+          <p class="card-text mb-1">€{{ obj.listing_price }}</p>
+          <p class="card-text small text-muted">
+            🛏️ {{ obj.rooms }} rooms · 📐 {{ obj.square_meters }} m²
+          </p>
         </div>
       </div>
     </div>
