@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Property catalogue</h1>
+<h1 class="property">Property catalogue</h1>
 
 <form method="get" class="row row-cols-lg-auto g-3 mb-4">
+  <!-- postal code(s) -->
   <div class="col">
     <label for="id_postal" class="form-label fw-bold">Postal code</label>
     <input name="postal" id="id_postal" class="form-control"
@@ -10,6 +11,7 @@
            placeholder="101,220,170">
   </div>
 
+  <!-- price range -->
   <div class="col">
     <label for="id_min" class="form-label fw-bold">€ Min</label>
     <input type="number" step="0.01" name="min_price" id="id_min"
@@ -21,25 +23,15 @@
            class="form-control" value="{{ filter_params.max_price }}">
   </div>
 
-  <div class="col">
-    <span class="fw-bold d-block">Type</span>
-    {% for code,label in properties.model.TYPE_CHOICES %}
-      <div class="form-check">
-        <input class="form-check-input"
-               type="checkbox" id="id_type{{ forloop.counter }}"
-               name="type" value="{{ code }}"
-               {% if code in selected_types %}checked{% endif %}>
-        <label class="form-check-label" for="id_type{{ forloop.counter }}">{{ label }}</label>
-      </div>
-    {% endfor %}
-  </div>
 
+  <!-- text search -->
   <div class="col">
     <label for="id_q" class="form-label fw-bold">Street contains</label>
     <input name="q" id="id_q" class="form-control"
            value="{{ filter_params.q }}">
   </div>
 
+  <!-- ordering -->
   <div class="col">
     <label for="id_order" class="form-label fw-bold">Order by</label>
     <select name="order" id="id_order" class="form-select">
@@ -51,6 +43,21 @@
     </select>
   </div>
 
+    <!-- property types (multi-select check-boxes) -->
+    <div class="col">
+      <span class="fw-bold d-block">Type</span>
+      {% for code,label in properties.model.TYPE_CHOICES %}
+        <div class="form-check">
+          <input class="form-check-input"
+                 type="checkbox" id="id_type{{ forloop.counter }}"
+                 name="type" value="{{ code }}"
+                 {% if code in selected_types %}checked{% endif %}>
+          <label class="form-check-label" for="id_type{{ forloop.counter }}">{{ label }}</label>
+        </div>
+      {% endfor %}
+    </div>
+
+  <!-- buttons -->
   <div class="col align-self-end">
     <button class="btn btn-primary">Filter</button>
     <a href="{% url 'property:list' %}" class="btn btn-outline-secondary">Clear</a>
@@ -75,7 +82,7 @@
       </div>
     </div>
   {% empty %}
-    <p>There are no properties listed</p>
+    <p>No properties yet…</p>
   {% endfor %}
 </div>
 
