@@ -18,11 +18,10 @@ TEMPLATES = {
 class FinaliseWizard(SessionWizardView):
     form_list = FORMS
 
-    # choose template based on current step
+    # template based on the current step youre in
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
 
-    # --- guards ----------------------------------------------------------------
     def dispatch(self, request, *args, **kwargs):
         self.offer = get_object_or_404(
             PurchaseOffer,
@@ -34,13 +33,8 @@ class FinaliseWizard(SessionWizardView):
             return redirect("finalisation:done", pk=self.offer.finalisation.pk)
         return super().dispatch(request, *args, **kwargs)
 
-    # one instance carried through all steps
-    def get_form_instance(self, step):
-        if not hasattr(self, "_instance"):
-            self._instance = Finalisation(offer=self.offer)
-        return self._instance
+        # put cleaned data into Review context
 
-    # put cleaned-data into Review context
     def get_context_data(self, form, **kwargs):
         ctx = super().get_context_data(form=form, **kwargs)
         if self.steps.current == "review":
@@ -48,7 +42,13 @@ class FinaliseWizard(SessionWizardView):
                           self.get_cleaned_data_for_step("payment")
         return ctx
 
-    # final save
+    # one instance carried through all the steps
+    def get_form_instance(self, step):
+        if not hasattr(self, "_instance"):
+            self._instance = Finalisation(offer=self.offer)
+        return self._instance
+
+
     def done(self, form_list, **kwargs):
         fin = self.get_form_instance(None)
         fin.confirm()

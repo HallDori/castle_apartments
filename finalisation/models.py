@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from purchase_offer.models import PurchaseOffer
 
-
+# veit ekki hvernig á að taka "sold" af properties svo gerið nýtt property til að testa"
 class Finalisation(models.Model):
     CREDIT_CARD     = "credit_card"
     BANK_TRANSFER   = "bank_transfer"
