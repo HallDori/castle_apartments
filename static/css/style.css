@@ -178,3 +178,12 @@ form .btn {
   font-weight: 500;
   color: #444;
 }
+
+/* details */
+
+#gallery img {
+  height: 180px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 8px;
+}
