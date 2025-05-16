@@ -8,11 +8,12 @@ class Seller(models.Model):
         (AGENCY, "Real Estate Agency"),
         (INDIVIDUAL, "Individual"),
     ]
+    #assign a seller to a user so you can accept a purchase offer
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="seller_profile",
-        null=True,  # allow old rows without a user for now
+        null=True,  # for old sellers that were not assigned as users
         blank=True,
     )
 
