@@ -47,28 +47,35 @@ footer {
 
 .navbar-brand {
   color: #ffffff;
-  font-weight: bold;
-  font-size: 1.25rem;
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-decoration: none !important;
 }
 
-.navbar-brand:hover {
-  color: #e6e6e6;
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-left: auto;
 }
 
-.navbar-nav .nav-link {
+.navbar-nav .nav-item,
+.navbar-nav form {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .btn-link.nav-link {
   color: #ffffff;
   padding: 0.5rem 1rem;
-  transition: background-color 0.2s;
-  border-radius: 6px;
+  text-decoration: none;
 }
 
-.navbar-nav .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+.navbar-nav .nav-link:hover,
+.navbar-nav .btn-link.nav-link:hover {
+  color: #cce6ff;
+  text-decoration: underline;
 }
 
 /* FILTERINN */
