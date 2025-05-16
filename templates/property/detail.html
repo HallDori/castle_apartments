@@ -5,11 +5,12 @@
 {% block title %}{{ object.street }} – Castle Apartments{% endblock %}
 
 {% block content %}
-<h1>{{ object.street }}, {{ object.city }}</h1>
-
-{% if object.is_sold %}
-  <span class="badge bg-danger">Sold</span>
-{% endif %}
+<h1>
+  {{ object.street }}, {{ object.city }}
+  {% if object.is_sold %}
+    <span class="badge bg-danger align-middle ms-2">Sold</span>
+  {% endif %}
+</h1>
 
 {% if object.images.exists %}
   <div id="gallery" class="row gx-2 gy-2 mb-4">
