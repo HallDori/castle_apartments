@@ -60,10 +60,14 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for obj in object_list %}
     <div class="col">
-      <div class="card h-100">
+      <div class="card h-100 position-relative">
         {% if obj.thumbnail_url %}
           <img src="{{ obj.thumbnail_url }}" class="card-img-top" alt="thumbnail">
         {% endif %}
+        {% if obj.is_sold %}
+          <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold</span>
+        {% endif %}
+      
         <div class="card-body">
           <h5 class="card-title">
             <a href="{% url 'property:detail' obj.pk %}">
