@@ -32,25 +32,19 @@ class PurchaseOfferCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy("property:detail", kwargs={"pk": self.property.pk})
 
 
-class PurchaseOfferListView(LoginRequiredMixin, ListView):
-    template_name = "purchase_offer/offer_list.html"
-    context_object_name = "offers"
-
-    def get_queryset(self):
-        return (PurchaseOffer.objects
-                .select_related("property", "property__seller")
-                .filter(buyer=self.request.user)
-                .order_by("-created"))
-
 class SellerOfferList(LoginRequiredMixin, ListView):
     template_name = "purchase_offer/seller_list.html"
     context_object_name = "offers"
 
     def get_queryset(self):
-        return (PurchaseOffer.objects
-                .select_related("property", "buyer")
-                .filter(property__seller__user=self.request.user)
-                .order_by("-created"))
+        return (PurchaseOffer.objects.select_related("property", "buyer").filter(property__seller__user=self.request.user).order_by("-created"))
+
+class PurchaseOfferListView(LoginRequiredMixin, ListView):
+    template_name = "purchase_offer/offer_list.html"
+    context_object_name = "offers"
+
+    def get_queryset(self):
+        return (PurchaseOffer.objects.select_related("property", "property__seller").filter(buyer=self.request.user).order_by("-created"))
 
 class OfferStatusUpdate(LoginRequiredMixin, UpdateView):
     model = PurchaseOffer

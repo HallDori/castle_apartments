@@ -1,6 +1,6 @@
 
 {% extends "base.html" %}
-{% load humanize %}         {# adds intcomma & naturaltime filters #}
+{% load humanize %}
 
 {% block title %}{{ object.street }} – Castle Apartments{% endblock %}
 
@@ -11,7 +11,6 @@
   <span class="badge bg-danger">Sold</span>
 {% endif %}
 
-<!-- image gallery -->
 {% if object.images.exists %}
   <div id="gallery" class="row gx-2 gy-2 mb-4">
     {% for img in object.images.all %}
@@ -23,7 +22,6 @@
 {% endif %}
 
 <div class="row">
-  <!-- left column: property facts -->
   <div class="col-md-8">
     <h4 class="mb-3">Details</h4>
     <dl class="row">
@@ -53,7 +51,6 @@
     <p>{{ object.description }}</p>
   </div>
 
-  <!-- right column: seller card -->
   <div class="col-md-4">
     <div class="card mb-4">
       {% if object.seller.logo %}
@@ -79,7 +76,7 @@
   </div>
 </div>
 
-<!-- purchase offer button placeholder -->
+//purchase order button
 {% if not object.is_sold %}
   <div class="text-center my-4">
     {% if request.user.is_authenticated %}
@@ -100,7 +97,7 @@
     {% else %}
       <a class="btn btn-outline-primary"
          href="{% url 'login' %}?next={{ request.path }}">
-        Log in to submit offer
+        Login required to submit offer
       </a>
     {% endif %}
   </div>
