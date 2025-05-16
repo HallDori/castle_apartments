@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Property catalogue</h1>
+<h1 class="property">Property catalogue</h1>
 
 <form method="get" class="row row-cols-lg-auto g-3 mb-4">
   <!-- postal code(s) -->
@@ -23,19 +23,6 @@
            class="form-control" value="{{ filter_params.max_price }}">
   </div>
 
-  <!-- property types (multi-select check-boxes) -->
-  <div class="col">
-    <span class="fw-bold d-block">Type</span>
-    {% for code,label in properties.model.TYPE_CHOICES %}
-      <div class="form-check">
-        <input class="form-check-input"
-               type="checkbox" id="id_type{{ forloop.counter }}"
-               name="type" value="{{ code }}"
-               {% if code in selected_types %}checked{% endif %}>
-        <label class="form-check-label" for="id_type{{ forloop.counter }}">{{ label }}</label>
-      </div>
-    {% endfor %}
-  </div>
 
   <!-- text search -->
   <div class="col">
@@ -55,6 +42,20 @@
       <option value="-name"  {% if filter_params.order == '-name'  %}selected{% endif %}>Street Z-A</option>
     </select>
   </div>
+
+    <!-- property types (multi-select check-boxes) -->
+    <div class="col">
+      <span class="fw-bold d-block">Type</span>
+      {% for code,label in properties.model.TYPE_CHOICES %}
+        <div class="form-check">
+          <input class="form-check-input"
+                 type="checkbox" id="id_type{{ forloop.counter }}"
+                 name="type" value="{{ code }}"
+                 {% if code in selected_types %}checked{% endif %}>
+          <label class="form-check-label" for="id_type{{ forloop.counter }}">{{ label }}</label>
+        </div>
+      {% endfor %}
+    </div>
 
   <!-- buttons -->
   <div class="col align-self-end">
