@@ -8,10 +8,8 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    """Expose our custom User in Django admin."""
+    """Expose custom User in Django admin."""
 
-    # use the same fieldsets as the stock UserAdmin
-    # but add 'profile_image' to the form
     fieldsets = BaseUserAdmin.fieldsets + (
         (
             "Profile",

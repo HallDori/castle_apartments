@@ -1,4 +1,3 @@
-# user/views.py
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -26,12 +25,9 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
     def form_valid(self, form):
-        messages.success(self.request, "Profile updated successfully!")
+        messages.success(self.request, "Profile has been updated successfully!")
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, "Update failed – please correct the errors.")
+        messages.error(self.request, "Update failed – please try again.")
         return super().form_invalid(form)
-from django.shortcuts import render
-
-# Create your views here.

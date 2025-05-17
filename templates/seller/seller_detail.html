@@ -1,26 +1,81 @@
 {% extends "base.html" %}
+{% load humanize %}
+
 {% block title %}{{ object.name }} – Seller{% endblock %}
+
 {% block content %}
-<h1>{{ object.name }}</h1>
-{% if object.logo %}<img src="{{ object.logo.url }}" class="img-fluid mb-3">{% endif %}
+<div class="position-relative mb-4">
 
-<p><strong>Type:</strong> {{ object.get_kind_display }}</p>
+  {% if object.cover %}
+    <img src="{{ object.cover.url }}"
+         class="w-100 rounded-4 shadow-sm"
+         style="max-height:320px;object-fit:cover"
+         alt="{{ object.name }} cover">
+  {% else %}
+    <div class="w-100 bg-secondary-subtle rounded-4"
+         style="height:220px"></div>
+  {% endif %}
+
+  <div class="text-center mt-3">
+    {% if object.logo %}
+      <img src="{{ object.logo.url }}"
+           class="rounded-circle shadow"
+           style="width:140px;height:140px;object-fit:cover;margin-top:-90px"
+           alt="{{ object.name }} logo">
+    {% endif %}
+
+    <h1 class="mt-3 mb-0">{{ object.name }}</h1>
+    <p class="text-muted mb-0">{{ object.get_kind_display }}</p>
+  </div>
+</div>
+
 {% if object.address_street %}
-  <p><strong>Address:</strong> {{ object.address_street }}, {{ object.address_city }} {{ object.address_postal }}</p>
+  <p><strong>Address:</strong>
+     {{ object.address_street }}, {{ object.address_city }} {{ object.address_postal }}</p>
 {% endif %}
-<p>{{ object.bio }}</p>
+{% if object.bio %}<p>{{ object.bio }}</p>{% endif %}
 
-<h2 class="mt-4">Properties for sale</h2>
-<ul>
-  {% for p in object.properties.all %}
-    <li>
-      <a href="{% url 'property:detail' p.pk %}">
-        {{ p.street }}, {{ p.city }} – €{{ p.listing_price }}
-      </a>
-      {% if p.is_sold %}<span class="badge bg-danger">Sold</span>{% endif %}
-    </li>
-  {% empty %}
-    <li>No active listings.</li>
-  {% endfor %}
-</ul>
+<h2 class="mt-5">Properties for sale</h2>
+
+{% if object.properties.exists %}
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+
+    {% for p in object.properties.all %}
+      <div class="col">
+        <a href="{% url 'property:detail' p.pk %}" class="text-decoration-none">
+          <div class="card h-100 shadow-sm">
+            {% if p.thumbnail_url %}
+              <img src="{{ p.thumbnail_url }}" class="card-img-top"
+                   style="height:180px;object-fit:cover" alt="thumbnail for {{ p }}">
+            {% else %}
+              <div class="d-flex align-items-center justify-content-center
+                          bg-secondary-subtle text-muted"
+                   style="height:180px">No image yet</div>
+            {% endif %}
+
+            <div class="card-body">
+              <h6 class="card-title mb-1">
+                {{ p.street }}, {{ p.city }}
+              </h6>
+
+              <p class="card-text small text-muted mb-2">
+                {{ p.get_property_type_display }} ·
+                {{ p.square_meters }} m² ·
+                {{ p.bedrooms }} bd · {{ p.bathrooms }} ba
+              </p>
+
+              <strong>{{ p.listing_price|intcomma }} ISK</strong>
+              {% if p.is_sold %}
+                <span class="badge bg-danger ms-2">Sold</span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+
+  </div>
+{% else %}
+  <p class="text-muted">This seller has no active listings.</p>
+{% endif %}
 {% endblock %}
